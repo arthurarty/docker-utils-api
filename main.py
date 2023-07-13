@@ -1,5 +1,5 @@
-from fastapi import FastAPI
-
+from fastapi import FastAPI, BackgroundTasks, status
+from fastapi.responses import JSONResponse
 from docker_utils import DockerCommandEnum, run_docker_command
 
 
@@ -12,11 +12,17 @@ async def root():
 
 
 @app.get("/docker-up-build")
-def docker_up_build():
+def docker_up_build(background_tasks: BackgroundTasks):
     """
     Runs the docker build command
     """
-    return run_docker_command(DockerCommandEnum.DOCKER_UP_BUILD)
+    background_tasks.add_task(
+        run_docker_command, DockerCommandEnum.DOCKER_UP_BUILD, use_call_back=True
+    )
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content='Request received, call back will be sent'
+    )
 
 
 @app.get("/docker-down")
