@@ -53,7 +53,7 @@ def run_docker_command(
         )
         if print_output:
             output_str = process.stdout
-            output_str = output_str.replace('\n', ', ')
+            output_str = output_str.strip('\n').replace('\n', ', ')
             msg = f'Output: {output_str}'
         else:
             msg = f'`{DOCKER_COMMAND_MAPPING.get(docker_command)}` complete.'
