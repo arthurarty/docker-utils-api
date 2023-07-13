@@ -1,19 +1,24 @@
+import shlex
 import subprocess
-from typing import Dict, Any
+from enum import Enum
 
 
-def run_bash_script(script_path: str, env_vars: Dict[str, Any]):
-    try:
-        # Run the bash script
-        subprocess.run(['bash', script_path], check=True, env=env_vars)
-        print("Bash script ran successfully!")
-    except subprocess.CalledProcessError as e:
-        print("Error running bash script:", e)
+class DockerCommandEnum(Enum):
+    DOCKER_DOWN = "DOCKER_DOWN"
+    DOCKER_UP_BUILD = "DOCKER_UP_BUILD"
 
 
-if __name__ == "__main__":
-    # Specify the path to your bash script
-    bash_script_path = "restart_docker.sh"
+DOCKER_COMMAND_MAPPING = {
+    DockerCommandEnum.DOCKER_DOWN: "docker compose down",
+    DockerCommandEnum.DOCKER_UP_BUILD: "docker compose -f docker-compose.yml -f docker-compose.prod.yml up --detach --build"
+}
 
-    # Call the function to run the bash script
-    run_bash_script(bash_script_path, {})
+
+def run_docker_command(docker_command: DockerCommandEnum) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        shlex.split(DOCKER_COMMAND_MAPPING.get(docker_command)),
+        check=True,
+        capture_output=True,
+        encoding="utf-8",
+        timeout=500,
+    )
