@@ -31,3 +31,11 @@ def docker_down():
     Runs docker compose down
     """
     return run_docker_command(DockerCommandEnum.DOCKER_DOWN)
+
+
+@app.get("/docker-status")
+def docker_status():
+    """
+    Run docker status
+    """
+    return run_docker_command(DockerCommandEnum.DOCKER_SERVICES_STATUS, print_output=True)
