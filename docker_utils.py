@@ -20,7 +20,7 @@ class DockerCommandEnum(Enum):
 
 
 DOCKER_COMMAND_MAPPING = {
-    DockerCommandEnum.DOCKER_DOWN: "docker compose down",
+    DockerCommandEnum.DOCKER_DOWN: "docker compose -f docker-compose.yml -f docker-compose.prod.yml down",
     DockerCommandEnum.DOCKER_UP_BUILD: "docker compose -f docker-compose.yml -f docker-compose.prod.yml up --detach --build",
     DockerCommandEnum.DOCKER_SERVICES_STATUS: "docker compose ps --services --filter 'status=running'",
 }
