@@ -19,9 +19,10 @@ def docker_up_build(background_tasks: BackgroundTasks):
     background_tasks.add_task(
         run_docker_command, DockerCommandEnum.DOCKER_UP_BUILD, use_call_back=True
     )
+    msg = 'Request received, call back will be sent'
     return JSONResponse(
         status_code=status.HTTP_200_OK,
-        content='Request received, call back will be sent'
+        content={'msg': msg}
     )
 
 

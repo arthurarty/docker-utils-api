@@ -54,7 +54,8 @@ def run_docker_command(
         if print_output:
             output_str = process.stdout
             output_str = output_str.strip('\n').replace('\n', ', ')
-            msg = f'Output: {output_str}'
+            output_str = output_str.strip(' ')
+            msg = f'Services Up: {output_str}' if len(output_str) > 1 else 'Services Down'
         else:
             msg = f'`{DOCKER_COMMAND_MAPPING.get(docker_command)}` complete.'
         if use_call_back:
@@ -62,13 +63,14 @@ def run_docker_command(
             return
         return JSONResponse(
             status_code=status.HTTP_200_OK,
-            content=msg
+            content={'msg': msg}
         )
     except FileNotFoundError as exc:
         logger.exception(exc)
+        msg = 'Failed to execute docker compose down file not found.'
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content='Failed to execute docker compose down file not found.'
+            content={'msg': msg}
         )
     except subprocess.CalledProcessError as exc:
         logger.exception(exc)
