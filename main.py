@@ -1,10 +1,11 @@
-from fastapi import FastAPI, BackgroundTasks, status, Depends, HTTPException
-from fastapi.responses import JSONResponse
-from docker_utils import DockerCommandEnum, run_docker_command
-from fastapi.security import OAuth2PasswordBearer
-from dotenv import load_dotenv
 import os
 
+from dotenv import load_dotenv
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, status
+from fastapi.responses import JSONResponse
+from fastapi.security import OAuth2PasswordBearer
+
+from docker_utils import DockerCommandEnum, run_docker_command
 
 load_dotenv()
 
