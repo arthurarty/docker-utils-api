@@ -19,9 +19,12 @@ class DockerCommandEnum(Enum):
     DOCKER_SERVICES_STATUS = "DOCKER_SERVICES_STATUS"
 
 
+DOCKER_FILE = os.environ.get('DOCKER_FILE_NAME', 'docker-compose.prod.yml')
+
+
 DOCKER_COMMAND_MAPPING = {
-    DockerCommandEnum.DOCKER_DOWN: "docker compose -f docker-compose.yml -f docker-compose.prod.yml down",
-    DockerCommandEnum.DOCKER_UP_BUILD: "docker compose -f docker-compose.yml -f docker-compose.prod.yml up --detach --build",
+    DockerCommandEnum.DOCKER_DOWN: f"docker compose -f docker-compose.yml -f {DOCKER_FILE} down",
+    DockerCommandEnum.DOCKER_UP_BUILD: f"docker compose -f docker-compose.yml -f {DOCKER_FILE} up --detach --build",
     DockerCommandEnum.DOCKER_SERVICES_STATUS: "docker compose ps --services --filter 'status=running'",
 }
 
