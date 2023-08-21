@@ -19,7 +19,9 @@ class DockerCommandEnum(Enum):
     DOCKER_SERVICES_STATUS = "DOCKER_SERVICES_STATUS"
 
 
-DOCKER_FILE = os.environ.get('DOCKER_FILE_NAME', 'docker-compose.prod.yml')
+DOCKER_FILE = os.environ.get('DOCKER_FILE_NAME')
+assert DOCKER_FILE
+print(DOCKER_FILE)
 
 
 DOCKER_COMMAND_MAPPING = {
